@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎄 Новогоднее Путешествие для Angelina</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Preloader -->
+    <div class="preloader" id="preloader">
+        <div class="preloader-content">
+            <div class="loading-spinner"></div>
+            <p class="loading-text">Загружаем волшебство...</p>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span class="logo-text">🎄 Angelina</span>
+            </div>
+            <div class="nav-dots">
+                <button class="nav-dot active" data-target="intro">
+                    <span class="dot-circle"></span>
+                    <span class="dot-label">Начало</span>
+                </button>
+                <button class="nav-dot" data-target="chapter1">
+                    <span class="dot-circle"></span>
+                    <span class="dot-label">Fever</span>
+                </button>
+                <button class="nav-dot" data-target="chapter2">
+                    <span class="dot-circle"></span>
+                    <span class="dot-label">Игра</span>
+                </button>
+                <button class="nav-dot" data-target="final">
+                    <span class="dot-circle"></span>
+                    <span class="dot-label">Финал</span>
+                </button>
+            </div>
+            <div class="nav-audio">
+                <button class="audio-btn" id="playBtn">
+                    <i class="fas fa-play"></i>
+                </button>
+                <div class="volume-control">
+                    <input type="range" id="volumeSlider" min="0" max="100" value="70">
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Intro Screen -->
+        <section class="screen active" id="intro">
+            <div class="hero-section">
+                <div class="hero-content">
+                    <h1 class="hero-title">
+                        <span class="title-line">Новогоднее</span>
+                        <span class="title-line highlight">Путешествие</span>
+                    </h1>
+                    
+                    <div class="hero-subtitle">
+                        <span>для</span>
+                        <span class="name">Angelina (@Mouse_Zz)</span>
+                    </div>
+
+                    <p class="hero-description">
+                        В этом особом путешествии тебя ждут волшебные моменты, созданные специально для тебя. Делал с душой. :D
+                    </p>
+
+                    <div class="hero-features">
+                        <div class="feature">
+                            <i class="fas fa-fire"></i>
+                            <h3>Fever Energy</h3>
+                            <p>Зарядись энергией праздника крутышка</p>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-star"></i>
+                            <h3>Star Catcher</h3>
+                            <p>Поймай звёзды удачи и будь счастлива</p>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-heart"></i>
+                            <h3>Сердечное послание</h3>
+                            <p>Специально для тебя и только для тебя</p>
+                        </div>
+                    </div>
+
+                    <button class="start-btn" id="startBtn">
+                        <span>Начать путешествие</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+
+                <div class="hero-image">
+                    <div class="image-container">
+                        <div class="photo-frame">
+                            <img src="assets/6WXGCOb35LjVm0_xGa0_ZL7nE0KVluCDxWs7QO103qE2apylyOoJ8x0qbTTEHNLVGLw1BawpDSLvq5KUwXeWNDfm.jpg" alt="Angelina" class="hero-photo">
+                        </div>
+                        <div class="image-caption">
+                            <p>Для тебя, красотка</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Chapter 1: Fever -->
+        <section class="screen" id="chapter1">
+            <div class="chapter-container">
+                <div class="chapter-header">
+                    <span class="chapter-number">01</span>
+                    <h2 class="chapter-title">FEVER ENERGY</h2>
+                    <p class="chapter-subtitle">Активируй свою новогоднюю enerгию</p>
+                </div>
+
+                <div class="game-area">
+                    <div class="energy-circle-container">
+                        <div class="energy-circle">
+                            <div class="circle-progress" id="energyCircle">
+                                <div class="progress-value">0%</div>
+                            </div>
+                            <div class="energy-label">
+                                <i class="fas fa-bolt"></i>
+                                <span>Энергия</span>
+                            </div>
+                        </div>
+                        
+                        <div class="energy-stats">
+                            <div class="stat">
+                                <div class="stat-value" id="clickCount">0</div>
+                                <div class="stat-label">Кликов</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value" id="energyValue">0%</div>
+                                <div class="stat-label">Уровень</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value" id="multiplier">1.0x</div>
+                                <div class="stat-label">Множитель</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="particles-container" id="particlesContainer">
+                        <!-- Частицы будут добавляться сюда -->
+                    </div>
+
+                    <div class="controls">
+                        <button class="btn btn-primary" id="chargeBtn">
+                            <i class="fas fa-bolt"></i>
+                            <span>Зарядить энергию</span>
+                        </button>
+                        <button class="btn btn-secondary" id="resetBtn">
+                            <i class="fas fa-redo"></i>
+                            <span>Сбросить</span>
+                        </button>
+                    </div>
+
+                    <div class="instructions">
+                        <h3><i class="fas fa-info-circle"></i> Как играть:</h3>
+                        <ul>
+                            <li>Нажимай на кнопку "Зарядить энергию"</li>
+                            <li>Каждый клик увеличивает уровень энергии</li>
+                            <li>Достигни 100% для получения достижения</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="navigation">
+                    <button class="nav-btn" data-target="intro">
+                        <i class="fas fa-arrow-left"></i>
+                        Назад
+                    </button>
+                    <button class="nav-btn btn-primary" data-target="chapter2">
+                        Далее
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Chapter 2: Star Catcher Game -->
+        <section class="screen" id="chapter2">
+            <div class="chapter-container">
+                <div class="chapter-header">
+                    <span class="chapter-number">02</span>
+                    <h2 class="chapter-title">STAR CATCHER</h2>
+                    <p class="chapter-subtitle">Поймай звёзды новогодней ночи</p>
+                </div>
+
+                <div class="controls-info">
+                    <h4><i class="fas fa-keyboard"></i> Управление:</h4>
+                    <div class="keyboard-controls">
+                        <p>Перетаскивай мышью по игровому полю</p>
+                    </div>
+                    <div class="touch-controls">
+                        <p>Перетаскивай пальцем по экрану, чтобы двигать корзину</p>
+                    </div>
+                </div>
+
+                <div class="game-container">
+                    <div class="game-stats">
+                        <div class="stat-card">
+                            <i class="fas fa-star"></i>
+                            <div>
+                                <div class="stat-value" id="starsCount">0</div>
+                                <div class="stat-label">Звёзд</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-clock"></i>
+                            <div>
+                                <div class="stat-value" id="timeLeft">30</div>
+                                <div class="stat-label">Секунд</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-trophy"></i>
+                            <div>
+                                <div class="stat-value" id="score">0</div>
+                                <div class="stat-label">Очков</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ОТДЕЛЬНАЯ КНОПКА МУЗЫКИ ДЛЯ ИГРЫ -->
+                    <div class="game-music-control">
+                        <button class="game-music-btn" id="gameMusicBtn">
+                            <i class=""> по фану кнопка</i>
+                          
+                        </button>
+                    </div>
+
+                    <div class="game-board">
+                        <div class="play-area" id="playArea">
+                            <div class="catcher" id="catcher"></div>
+                        </div>
+                        
+                        <div class="game-controls">
+                            <button class="btn btn-primary" id="startGameBtn">
+                                <i class="fas fa-play"></i>
+                                Начать игру
+                            </button>
+                            <button class="btn" id="pauseGameBtn">
+                                <i class="fas fa-pause"></i>
+                                Пауза
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="instructions">
+                        <h3><i class="fas fa-gamepad"></i> Управление:</h3>
+                        <p>Двигай мышью или пальцем, чтобы ловить падающие звёзды</p>
+                        <p>Поймай как можно больше звёзд за 30 секунд!</p>
+                    </div>
+                </div>
+
+                <div class="navigation">
+                    <button class="nav-btn" data-target="chapter1">
+                        <i class="fas fa-arrow-left"></i>
+                        Назад
+                    </button>
+                    <button class="nav-btn btn-primary" data-target="final">
+                        К финалу
+                        <i class="fas fa-gift"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Final Screen -->
+        <section class="screen" id="final">
+            <div class="final-container">
+                <div class="final-header">
+                    <h1 class="final-title">С Новым Годом! ✨</h1>
+                    <p class="final-subtitle">Твоё путешествие подошло к концу</p>
+                </div>
+
+                <div class="results">
+                    <div class="result-card">
+                        <h3><i class="fas fa-trophy"></i> Твои показатели</h3>
+                        <div class="result-list">
+                            <div class="result-item">
+                                <i class="fas fa-bolt"></i>
+                                <div>
+                                    <div class="result-label">Максимальная энергия</div>
+                                    <div class="result-value" id="finalEnergy">0%</div>
+                                </div>
+                            </div>
+                            <div class="result-item">
+                                <i class="fas fa-star"></i>
+                                <div>
+                                    <div class="result-label">Звёзд собрано</div>
+                                    <div class="result-value" id="finalStars">0</div>
+                                </div>
+                            </div>
+                            <div class="result-item">
+                                <i class="fas fa-gamepad"></i>
+                                <div>
+                                    <div class="result-label">Лучший результат</div>
+                                    <div class="result-value" id="finalScore">0</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="message-card">
+                        <h3><i class="fas fa-heart"></i> Поздравление</h3>
+                        <div class="message-content">
+                            <p>Пусть этот новый год принесёт тебе:</p>
+                            <ul>
+                                <li><i class="fas fa-sparkles"></i> Букетик шоколадок</li>
+                                <li><i class="fas fa-music"></i> Хороших друзей</li>
+                                <li><i class="fas fa-star"></i> Яркие моменты радости</li>
+                                <li><i class="fas fa-heart"></i> Истинную любовь</li>
+                                <li><i class="fas fa-gem"></i> Успех во всех начинаниях</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="signature">
+                    <p class="signature-name">С самыми тёплыми пожеланиями в новом году. С НОВЫМ 2026 ГОДОМ!!!  </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Audio Elements -->
+    <audio id="bgMusic" loop>
+        <source src="assets/Tri_dnya_dozhdya_-_Otpuskajj_74140607.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="clickSound">
+        <source src="" type="audio/mpeg">
+    </audio>
+    <audio id="collectSound">
+        <source src="" type="audio/mpeg">
+    </audio>
+    <audio id="successSound">
+        <source src="" type="audio/mpeg">
+    </audio>
+
+    <!-- Notifications -->
+    <div class="notifications" id="notifications"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
