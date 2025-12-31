@@ -1760,3 +1760,70 @@ input, textarea, select {
     }
 }
 
+/* Добавьте в конец CSS файла */
+
+/* ===== КНОПКА "ВЕРНУТЬСЯ В НАЧАЛО" ===== */
+.final-actions {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.restart-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    padding: 15px 30px;
+    border-radius: 50px;
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+}
+
+.restart-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+}
+
+.restart-btn:active {
+    transform: translateY(-1px);
+}
+
+.restart-btn i {
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+}
+
+.restart-btn:hover i {
+    transform: scale(1.1);
+}
+
+@media (max-width: 767px) {
+    .final-actions {
+        margin-top: 30px;
+    }
+    
+    .restart-btn {
+        width: 100%;
+        max-width: 280px;
+        justify-content: center;
+        padding: 14px 20px;
+    }
+    
+    .restart-btn span {
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .restart-btn {
+        padding: 12px 18px;
+    }
+    
+    .restart-btn span {
+        font-size: 0.9rem;
+    }
+}

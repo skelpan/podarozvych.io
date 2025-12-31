@@ -946,3 +946,46 @@ style.textContent = `
     }
 `;
 document.head.appendChild(style);
+
+// Просто добавьте этот код в ваш существующий script.js:
+
+// 1. В функции initApp() добавьте:
+setupRestartButton();
+
+// 2. Добавьте эти функции:
+
+function setupRestartButton() {
+    const restartBtn = document.getElementById('restartBtn');
+    
+    restartBtn.addEventListener('click', function() {
+        // Сброс всех игр
+        energyLevel = 0;
+        clickCount = 0;
+        energyMultiplier = 1.0;
+        gameActive = false;
+        starsCollected = 0;
+        gameScore = 0;
+        timeLeft = 30;
+        
+        // Очистка таймеров
+        clearInterval(gameInterval);
+        clearInterval(starSpawnInterval);
+        starSpawnInterval = null;
+        
+        // Очистка localStorage
+        localStorage.removeItem('feverProgress');
+        localStorage.removeItem('lastGameStars');
+        localStorage.removeItem('lastGameScore');
+        localStorage.removeItem('starHighScore');
+        localStorage.removeItem('currentScreen');
+        
+        // Переход на начальный экран
+        switchScreen('intro');
+        
+        // Уведомление
+        showNotification('Возвращаемся в начало путешествия!', 'info');
+        
+        // Звук
+        playSound(clickSound);
+    });
+}
