@@ -989,3 +989,203 @@ function setupRestartButton() {
         playSound(clickSound);
     });
 }
+
+// ДОБАВЬТЕ ЭТО В ВАШ script.js
+
+// 1. В начало файла добавьте переменную:
+let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+// 2. В функцию initApp() добавьте:
+function initApp() {
+    setupAudio();
+    setupNavigation();
+    setupMobileRestartButton(); // Используем мобильную версию
+    initFeverGame();
+    initStarCatcher();
+    loadProgress();
+    setupKeyboardControls();
+    
+    updatePlayButton();
+    updateGameMusicButton();
+}
+
+// 3. Добавьте функцию для мобильной кнопки:
+function setupMobileRestartButton() {
+    const restartBtn = document.getElementById('restartBtn');
+    
+    // Обработчик для тач-устройств
+    let touchStartTime = 0;
+    let touchStartY = 0;
+    
+    restartBtn.addEventListener('touchstart', function(e) {
+        touchStartTime = Date.now();
+        touchStartY = e.touches[0].clientY;
+        this.style.opacity = '0.8';
+        this.style.transform = 'translateY(-1px)';
+        
+        // Предотвращаем скролл страницы при нажатии
+        if (e.cancelable) {
+            e.preventDefault();
+        }
+    }, { passive: false });
+    
+    restartBtn.addEventListener('touchend', function(e) {
+        const touchEndTime = Date.now();
+        const touchDuration = touchEndTime - touchStartTime;
+        
+        // Проверяем, был ли это короткий тап (не скролл)
+        if (touchDuration < 500) {
+            handleRestart();
+        }
+        
+        this.style.opacity = '1';
+        this.style.transform = 'translateY(-2px)';
+    });
+    
+    restartBtn.addEventListener('touchmove', function(e) {
+        const touchY = e.touches[0].clientY;
+        const diffY = Math.abs(touchY - touchStartY);
+        
+        // Если пользователь начал скроллить, отменяем нажатие
+        if (diffY > 10) {
+            this.style.opacity = '1';
+            this.style.transform = 'translateY(0)';
+        }
+    });
+    
+    // Обработчик для десктопа
+    restartBtn.addEventListener('click', function(e) {
+        if (!isMobile) {
+            handleRestart();
+        }
+    });
+    
+    // Добавляем виброотклик на мобильных (если поддерживается)
+    if (isMobile && 'vibrate' in navigator) {
+        restartBtn.addEventListener('touchend', function() {
+            navigator.vibrate(50); // Короткая вибрация 50ms
+        });
+    }
+    
+    function handleRestart() {
+        // Визуальная обратная связь
+        restartBtn.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+            restartBtn.style.transform = 'scale(1)';
+        }, 150);
+        
+        // Сброс игр
+        resetAllGames();
+        
+        // Переход на начало
+        switchScreen('intro');
+        
+        // Уведомление
+        showNotification('🎄 Возвращаемся в начало!', 'success');
+        
+        // Звук
+        playSound(clickSound);
+        
+        // Сохраняем событие в аналитику (если нужно)
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'restart_click', {
+                'event_category': 'engagement',
+                'event_label': 'mobile_restart_button'
+            });
+        }
+    }
+}
+
+// 4. Функция сброса игр (обновленная для мобильных):
+function resetAllGames() {
+    // Сброс Fever игры
+    energyLevel = 0;
+    clickCount = 0;
+    energyMultiplier = 1.0;
+    
+    // Сброс Star Catcher игры
+    gameActive = false;
+    isPaused = false;
+    starsCollected = 0;
+    gameScore = 0;
+    timeLeft = 30;
+    highScore = 0;
+    
+    // Очистка таймеров
+    clearInterval(gameInterval);
+    clearInterval(starSpawnInterval);
+    starSpawnInterval = null;
+    
+    // Очистка звезд
+    if (stars && stars.length > 0) {
+        stars.forEach(star => {
+            if (star.element && star.element.parentNode) {
+                star.element.remove();
+            }
+            if (star.animationId) {
+                cancelAnimationFrame(star.animationId);
+            }
+        });
+        stars = [];
+    }
+    
+    // Очистка частиц
+    const particlesContainer = document.getElementById('particlesContainer');
+    if (particlesContainer) {
+        particlesContainer.innerHTML = '';
+    }
+    
+    // Сброс позиции корзины
+    if (document.getElementById('catcher')) {
+        const playArea = document.getElementById('playArea');
+        const catcher = document.getElementById('catcher');
+        catcherWidth = catcher.offsetWidth;
+        catcherX = playArea.offsetWidth / 2 - catcherWidth / 2;
+        catcher.style.left = `${catcherX}px`;
+    }
+    
+    // Очистка localStorage
+    localStorage.removeItem('feverProgress');
+    localStorage.removeItem('lastGameStars');
+    localStorage.removeItem('lastGameScore');
+    localStorage.removeItem('starHighScore');
+    localStorage.removeItem('currentScreen');
+    
+    // Обновление UI
+    updateEnergyUI();
+    updateGameUI();
+    updateFinalScreen();
+}
+
+// 5. Вспомогательные функции (если их нет):
+function updateEnergyUI() {
+    const energyCircle = document.getElementById('energyCircle');
+    const progressValue = energyCircle?.querySelector('.progress-value');
+    const clickCountElement = document.getElementById('clickCount');
+    const energyValueElement = document.getElementById('energyValue');
+    const multiplierElement = document.getElementById('multiplier');
+    
+    if (energyCircle) {
+        energyCircle.style.background = `conic-gradient(
+            var(--primary) 0%, 
+            var(--secondary) ${energyLevel}%, 
+            transparent ${energyLevel}%, 
+            transparent 100%
+        )`;
+    }
+    
+    if (progressValue) progressValue.textContent = `${Math.round(energyLevel)}%`;
+    if (clickCountElement) clickCountElement.textContent = clickCount;
+    if (energyValueElement) energyValueElement.textContent = `${Math.round(energyLevel)}%`;
+    if (multiplierElement) multiplierElement.textContent = energyMultiplier.toFixed(1) + 'x';
+}
+
+function updateGameUI() {
+    const starsCountElement = document.getElementById('starsCount');
+    const timeLeftElement = document.getElementById('timeLeft');
+    const scoreElement = document.getElementById('score');
+    
+    if (starsCountElement) starsCountElement.textContent = starsCollected;
+    if (timeLeftElement) timeLeftElement.textContent = timeLeft;
+    if (scoreElement) scoreElement.textContent = gameScore;
+}
